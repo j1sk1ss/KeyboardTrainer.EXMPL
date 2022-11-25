@@ -26,6 +26,8 @@ namespace KeyboardTrainer.Windows {
         private int _level;
         private int _mistakes;
         private int _position;
+        private float _speed;
+        private int _tempSpeed;
         
         private readonly DispatcherTimer _timer = new () {
             Interval = new TimeSpan(0,0,0,1)
@@ -38,24 +40,38 @@ namespace KeyboardTrainer.Windows {
         }
         private void TimeIncrease(object sender, EventArgs eventArgs) {
             var addSeconds = Time.AddSeconds(1);
+
+            _speed = _tempSpeed;
+            _tempSpeed = 0;
+            
             Time = addSeconds;
         }
         private void UpdateInfo(object sender, EventArgs eventArgs) {
             Info.Content = $"Время: {Time:mm:ss}\n" +
                            $"Ошибки: {_mistakes}\n" +
-                           $"Скорость набора: {0} сим/мин\n" +
+                           $"Скорость набора: {_speed} сим/мин\n" +
                            $"\nВведите строку:\n{Lines[_level] ?? "NULL"}";
             ExtendedInfo.Content = $"Уровень: {User.Difficulty.ToString()}\n" +
-                                   $"Строка: {_level}/{Lines.Count}/{_position}";
+                                   $"Строка: {_level}/{Lines.Count}\n" +
+                                   $"Позиция: {_position}";
         }
         private void EnterChar(object sender, KeyEventArgs e) {
-
-            DuringAnswer.Content += e.Key.ToString().ToLower() == "space" ? " " : e.Key.ToString().ToLower();
+            var temp = GetString(e.Key.ToString().ToLower());
+            if (temp == "") return;
+            _tempSpeed++;
+            DuringAnswer.Content += temp;
+            
             if (DuringAnswer.Content.ToString()![_position] != Lines[_level][_position]) _mistakes++;
+            
             if (_position++ < Lines[_level].Length - 2) return;
             DuringAnswer.Content = "";
-            _position            = 0;
+            _position = 0;
             _level++;
         }
+
+        private readonly List<string> _disableCharacters = new() {
+            "space", "leftctrl", "alt", "back", "rightctrl", "leftshift", "return", "system"
+        };
+        private string GetString(string symbol) => _disableCharacters.Contains(symbol) ? "" : symbol;
     }
 }
