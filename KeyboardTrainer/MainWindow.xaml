@@ -1,0 +1,23 @@
+﻿<Window x:Class="KeyboardTrainer.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:KeyboardTrainer"
+        mc:Ignorable="d"
+        Title="Тренажёр" Height="250" Width="450"
+        ResizeMode="NoResize">
+    <Grid>
+        <Label Margin="45,0,0,0" FontSize="15"> Имя: </Label>
+        <TextBox x:Name="UserName" Height="20" Width="150" Margin="0,40,200,0" VerticalAlignment="Top">  </TextBox>
+        <Label Margin="250,0,0,0" FontSize="15"> Уровень подготовки: </Label>
+        <ComboBox x:Name="Difficult" Height="20" Width="150" Margin="210,40,0,0" VerticalAlignment="Top">
+            <ComboBoxItem> Низкий </ComboBoxItem>
+            <ComboBoxItem> Средний </ComboBoxItem>
+            <ComboBoxItem> Высокий </ComboBoxItem>
+        </ComboBox>
+        <Button VerticalAlignment="Top" Height="20" Width="350" Margin="10,90,0,0" Click="StartTrainer"> Начать тренеровку </Button>
+        <Button VerticalAlignment="Top" Height="20" Width="350" Margin="10,120,0,0" Click="ChangeQuest"> Редактировать текст задания </Button>
+        <Button VerticalAlignment="Top" Height="20" Width="350" Margin="10,150,0,0" Click="GetInfo"> Справка </Button>
+    </Grid>
+</Window>
