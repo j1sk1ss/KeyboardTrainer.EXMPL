@@ -27,8 +27,8 @@ namespace KeyboardTrainer.Windows {
         private int _level;
         private int _mistakes;
         private int _position;
-        private float _speed;
         private int _tempSpeed;
+        private float _speed;
         
         private readonly DispatcherTimer _timer = new () {
             Interval = new TimeSpan(0,0,0,1)
@@ -39,10 +39,9 @@ namespace KeyboardTrainer.Windows {
         private void TimeIncrease(object sender, EventArgs eventArgs) {
             var addSeconds = Time.AddSeconds(1);
 
-            _speed = _tempSpeed;
+            _speed     = _tempSpeed;
             _tempSpeed = 0;
-            
-            Time = addSeconds;
+            Time       = addSeconds;
         }
         private void UpdateInfo(object sender, EventArgs eventArgs) {
             Info.Content = $"Время: {Time:mm:ss}\n" +
