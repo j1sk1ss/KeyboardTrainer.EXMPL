@@ -8,7 +8,7 @@ namespace KeyboardTrainer.Objects {
         }
         public string Name { get; set; }
         public Difficulty Difficulty { get; set; }
-        public int HighResult { get; set; }
+        public float HighResult { get; set; }
         private Difficulty GetDifficulty(string name) => name switch {
             "Низкий" => Difficulty.Low,
             "Средний" => Difficulty.Middle,

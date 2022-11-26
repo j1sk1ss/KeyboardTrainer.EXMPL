@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using System.Windows.Threading;
 using KeyboardTrainer.Objects;
@@ -35,9 +36,6 @@ namespace KeyboardTrainer.Windows {
         private readonly DispatcherTimer _interface = new () {
             Interval = new TimeSpan(100)
         };
-        private void CloseTrainer(object sender, EventArgs e) {
-            new MainWindow().Show();
-        }
         private void TimeIncrease(object sender, EventArgs eventArgs) {
             var addSeconds = Time.AddSeconds(1);
 
@@ -49,11 +47,12 @@ namespace KeyboardTrainer.Windows {
         private void UpdateInfo(object sender, EventArgs eventArgs) {
             Info.Content = $"Время: {Time:mm:ss}\n" +
                            $"Ошибки: {_mistakes}\n" +
-                           $"Скорость набора: {_speed} сим/мин\n" +
+                           $"Скорость: {_speed} сим/мин\n" +
                            $"\nВведите строку:\n{Lines[_level] ?? "NULL"}";
             ExtendedInfo.Content = $"Уровень: {User.Difficulty.ToString()}\n" +
                                    $"Строка: {_level}/{Lines.Count}\n" +
                                    $"Позиция: {_position}";
+            if (User.HighResult < _speed) User.HighResult = _speed;
         }
         private void EnterChar(object sender, KeyEventArgs e) {
             var temp = GetString(e.Key.ToString().ToLower());
@@ -66,12 +65,18 @@ namespace KeyboardTrainer.Windows {
             if (_position++ < Lines[_level].Length - 2) return;
             DuringAnswer.Content = "";
             _position = 0;
-            _level++;
+            if (++_level < Lines.Count - 1) return;
+
+            MessageBox.Show($"Вы прошли!\nМаксимальная скорость: {User.HighResult}\n" +
+                            $"Колличество ошибок: {_mistakes}", "Резулитат.");
+            _timer.IsEnabled = false;
+            new MainWindow().Show();
+            this.Close();
         }
 
         private readonly List<string> _disableCharacters = new() {
             "space", "leftctrl", "alt", "back", "rightctrl", "leftshift", "return", "system"
         };
-        private string GetString(string symbol) => _disableCharacters.Contains(symbol) ? "" : symbol;
+        private string GetString(string symbol) => _disableCharacters.Contains(symbol) ? " " : symbol;
     }
 }

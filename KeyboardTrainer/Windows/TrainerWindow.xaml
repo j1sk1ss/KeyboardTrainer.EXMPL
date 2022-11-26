@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:KeyboardTrainer.Windows"
         mc:Ignorable="d"
         Title="TrainerWindow" Height="350" Width="650"
-        Closed="CloseTrainer"
         KeyDown="EnterChar">
     <Grid>
         <Label x:Name="Info" FontSize="20" HorizontalAlignment="Left" VerticalAlignment="Top">

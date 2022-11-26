@@ -2,12 +2,9 @@
 using KeyboardTrainer.Objects;
 using KeyboardTrainer.Windows;
 
-namespace KeyboardTrainer
-{
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
+namespace KeyboardTrainer {
+    public partial class MainWindow {
+        public MainWindow() {
             InitializeComponent();
             Trainer = new Trainer();
         }
